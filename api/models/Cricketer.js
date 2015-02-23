@@ -1,14 +1,29 @@
 /**
 * Cricketer.js
 *
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
+* @description :: This model stores Cricketer information.
 */
 
 module.exports = {
 
   attributes: {
+    firstname: {
+      type: 'string'
+    },
+    lastname: {
+      type: 'string'
+    },
+    username: {
+      type: 'string'
+    },
+    email: {
+      type: 'email'
+    },
 
+    teams: {
+      collection: 'team',
+      via: 'players'
+    }
   }
 };
 

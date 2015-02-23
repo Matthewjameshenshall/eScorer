@@ -1,0 +1,33 @@
+<% if (errors) {%>
+<% errors.forEach(function (error) { %>
+<%= __(error) %>
+<% }) %>
+<% } %>
+
+
+
+<form role="form" class="ui form segment" action="/auth/local" method="post">
+    <div class="two fields">
+    <div class="field">
+      <div class="ui left icon input">
+        <input name="identifier" type="text" placeholder="username or email"></div>
+    </div>
+    <div class="field">
+      <div class="ui left icon input">
+        <input name="password" type="password" placeholder="password"></div>
+    </div>
+    <div class="field">
+      <button type="submit" class="ui submit button">Sign in</button>
+    </div>
+  </div>
+</form>
+
+<% if (providers) {%>
+<h4>You can also use one of these...</h4>
+
+<% Object.keys(providers).forEach(function (key) { %>
+<a href="/auth/<%= providers[key].slug %>
+  " role="button">
+  <%= providers[key].name %></a>
+<% }) %>
+<% } %>

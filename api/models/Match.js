@@ -8,7 +8,23 @@
 module.exports = {
 
   attributes: {
+    hometeam: {
+      model: 'team'
+    },
+    awayteam: {
+      model: 'team'
+    },
+    date: {
+      type: 'date'
+    },
+    venue: {
+      type: 'string'
+    },
 
+    matchtype: {
+      type: 'string',
+      enum: ['limitedovers', 'innings']
+    }
   }
 };
 

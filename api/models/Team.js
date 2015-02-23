@@ -8,7 +8,13 @@
 module.exports = {
 
   attributes: {
-
+    school:{
+      model: 'school'
+    },
+    players: {
+      collection: 'cricketer',
+      via: 'teams'
+    }
   }
 };
 

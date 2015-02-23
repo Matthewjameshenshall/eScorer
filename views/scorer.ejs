@@ -1,0 +1,25 @@
+<div class="ui page grid">
+  <div class="ui page grid">
+    <div class="ui page grid">
+      <%- partial ('header.ejs') %>
+      <div class="ui divider"></div>
+
+      <!-- Page Content -->
+      <div class="ui grid">
+
+        <!-- Title -->
+        <div class="row text-center">
+          <div class="column">
+            <h3>South Africa vs India</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui divider"></div>
+      <div class="ui grid" ng-app="scorer">
+        <!-- App -->
+        <div ng-view></div>
+      </div>
+    </div>
+  </div>
+</div>

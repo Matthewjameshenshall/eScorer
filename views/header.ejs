@@ -1,0 +1,36 @@
+<% if (1) {%>
+<nav class="ui text menu navbar">
+  <div class="left menu">
+    <a href="/" class="item">eScorer</a>
+    <a href="/" class="item">Home</a>
+    <a href="/scorer" class="item">Scorer</a>
+    <a href="" class="item">Contact</a>
+  </div>
+  <div class="right menu">
+    <form role="form" class="ui form segment" action="/auth/local" method="post">
+      <div class="inline fields">
+        <div class="field">
+          <div class="ui left icon input">
+            <input name="identifier" type="text" placeholder="username or email"></div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <input name="password" type="password" placeholder="password"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+</nav>
+<% } else { %>
+<nav class="ui text menu navbar">
+  <div class="left menu">
+    <a href="/" class="item">eScorer</a>
+    <a href="/" class="item">Home</a>
+    <a href="/scorer" class="item">Scorer</a>
+    <a href="" class="item">Contact</a>
+    <a href="/logout" class="ui red button">Logout</a>
+  </div>
+</nav>
+
+</div>
+<% } %>

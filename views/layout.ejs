@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-framework="angularjs">
 
 <head>
     <meta charset="utf-8">
@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <meta name="description" content=""> -->
     <meta name="GeeGee Edu" content="">
+    <style>[ng-cloak] { display: none; }</style>
 
     <title>eScorer - Cricket</title>
 
@@ -17,11 +18,15 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,700,300&subset=latin,vietnamese' rel='stylesheet' type='text/css'>
+
     <!--STYLES-->
     <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.css">
-    <link rel="stylesheet" href="/styles/heroic-features.css">
+    <link rel="stylesheet" href="/vendor/semantic-ui/semantic.css">
     <link rel="stylesheet" href="/styles/importer.css">
+    <link rel="stylesheet" href="/styles/main.css">
     <!--STYLES END-->
+
 
 </head><!DOCTYPE html>
 
@@ -52,7 +57,7 @@
     -->
 
     <!--TEMPLATES-->
-
+    
     <!--TEMPLATES END-->
 
 
@@ -83,7 +88,15 @@
     <script src="/js/dependencies/sails.io.js"></script>
     <script src="/vendor/jquery/jquery.js"></script>
     <script src="/vendor/angular/angular.js"></script>
+    <script src="/vendor/angular-resource/angular-resource.js"></script>
+    <script src="/vendor/angular-route/angular-route.js"></script>
     <script src="/vendor/bootstrap/bootstrap.js"></script>
+    <script src="/vendor/semantic-ui/semantic.js"></script>
+    <script src="/js/scorer.js"></script>
+    <script src="/js/controllers/scorerCtrl.js"></script>
+    <script src="/js/services/todoStorage.js"></script>
+    <script src="/js/directives/todoEscape.js"></script>
+    <script src="/js/directives/todoFocus.js"></script>
     <!--SCRIPTS END-->
   </body>
 </html>

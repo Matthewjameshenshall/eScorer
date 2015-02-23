@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="column">
+    <h1>Score : {{total}}/{{wickets}}</h1>
+    <h3>Batsman 1 : {{batsman[0]}}{{strike[0]}}</h3>
+    <h3>Batsman 2 : {{batsman[1]}}{{strike[1]}}</h3>
+  </div>
+</div>
+
+<div class="ui divider"></div>
+<div class="ui grid">
+  <div class="two column row">
+    <div class="column">
+      <div class="ui compact stacked segment">
+        <div class="ui top attached header">
+          <h3>Runs Scored:</h3>
+        </div>
+        <div class="ui attached segment">
+          <a class="ui green button" ng-repeat="run in runs"ng-click="addRuns(run)">{{run}}</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="ui compact stacked segment">
+        <div class="ui top attached header">
+          <h3>Wicket!</h3>
+        </div>
+        <div class="ui attached segment">
+          <a class="ui red button" ng-repeat="wicket in wicketOptions" ng-click="addWicket()">{{wicket}}</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
