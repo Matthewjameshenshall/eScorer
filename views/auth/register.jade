@@ -1,0 +1,33 @@
+
+extends ../layout
+
+block body
+  .row
+    p #{errors}
+    if errors.length > 0
+      each error in errors
+        .ui.icon.error.message
+          i.attention.circle.icon
+          .content
+            .header Error
+            p= error
+  .row
+    .column
+      form.ui.form.stacked.segment(role="form" action="/auth/local/register" method="post")
+
+        .ui.labeled.input
+          a.ui.label Username
+          input(name="identifier" type="text" placeholder="username")
+        .ui.hidden.divider
+
+        .ui.labeled.input
+          a.ui.label Email
+          input(name="identifier" type="email" placeholder="email")
+        .ui.hidden.divider
+
+        .ui.labeled.input
+          a.ui.label Password
+          input(name="password" type="password" placeholder="password")
+        .ui.hidden.divider
+
+        button.ui.submit.green.button(type="submit") Sign up

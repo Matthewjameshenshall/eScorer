@@ -5,154 +5,174 @@
  * - retrieves and persists the model via the todoStorage service
  * - exposes the model to the template and provides event handlers
  */
-angular.module('scorer')
+angular.module('Scorer')
 	.controller('ScorerCtrl', function TodoCtrl($scope, $routeParams, $filter) {
 		'use strict';
 
+		// Global variables
 		$scope.runs = [1, 2, 3, 4, 5, 6];
-		$scope.wicketOptions = ["Bowled", "Caught", "Run-out", "Stumped"];
+		$scope.wicketTypes = ["Bowled", "Caught", "LBW", "Run-out", "Stumped", "Handled Ball", "Hit Twice", "Timed Out"];
 
+		// Batting team
 		$scope.total = 0;
 		$scope.wickets = 0;
 
-		$scope.batsman = [0, 0];
-		$scope.strike = ['*', ''];
+		// Bowling Team
+		$scope.overs = 0;
 
-		var swapStrike = function(){
-			var temp = $scope.strike[0];
-			$scope.strike[0] = $scope.strike[1];
-			$scope.strike[1] = temp;
+		$scope.battingTeam = [
+			"Player 1",
+			"Player 2",
+			"Player 3",
+			"Player 4",
+			"Player 5",
+			"Player 6",
+			"Player 7",
+			"Player 8",
+			"Player 9",
+			"Player 10",
+			"Player 11"
+			];
+
+		$scope.bowlingTeam = [
+			{firstname: "Player 1"},
+			{firstname: "Player 2"},
+			{firstname: "Player 3"},
+			{firstname: "Player 4"},
+			{firstname: "Player 5"},
+			{firstname: "Player 6"},
+			{firstname: "Player 7"},
+			{firstname: "Player 8"},
+			{firstname: "Player 9"},
+			{firstname: "Player 10"},
+			{firstname: "Player 11"}
+			];
+
+		// Batsman Service
+		$scope.batsman = [
+			{name: 'Dumminy', runs: 0, balls: 0, strike:''},
+			{name: 'De Villiers', runs: 0, balls: 0, strike:'*'}
+		];
+
+		// Bowler Service
+		$scope.bowler = [
+			{name: 'Kholi', overs: 0, balls: 0, wickets: 0, maidens:0, runs:0},
+			{name: 'Other', overs: 0, balls: 0, wickets: 0, maidens:0, runs:0}
+		];
+
+		/**
+		 * EVENT functions
+		 *
+		 *
+		 */
+
+		$scope.normalEvent = function(runs){
+			$scope.total += runs;
+
+			$scope.bowler[0].runs += runs;
+			$scope.bowler[0].balls++;
+
+			addBatsmanBall();
+			addBatsmanRuns(runs);
+			checkOddRunsSwap(runs);
+
 		};
 
-		$scope.addRuns = function(num){
-			$scope.total += num;
+		$scope.wideEvent = function(runs){
+			$scope.total += runs+1;
 
-			if($scope.strike[0] === '*'){
-				$scope.batsman[0] += num;
+			$scope.bowler[0].runs += runs+1;
+
+			checkOddRunsSwap(runs);
+		};
+
+		$scope.noBallEvent = function(runs, offbat){
+			$scope.total += runs+1;
+
+			$scope.bowler[0].runs += runs+1;
+
+			if(offbat){
+				addBatsmanRuns(runs);
+			}
+			addBatsmanBall();
+			checkOddRunsSwap(runs);
+
+		};
+
+		$scope.wicketEvent = function(type){
+			$scope.wicket++;
+		};
+
+
+		$scope.endOver = function(answer){
+			$scope.bowler[0].overs++;
+			$scope.bowler[0].balls = 0;
+
+			$scope.overs++;
+			$('#pickBowlerModal').modal('show');
+
+		};
+
+		$scope.newOver = function(bowler){
+			$('#pickBowlerModal').modal('hide');
+			$scope.bowler[1] = $scope.bowler[0];
+			$scope.bowler[0] = {
+					name: bowler.firstname,
+					overs: 0,
+					balls: 0,
+					wickets: 0,
+					maidens:0,
+					runs:0
+				};
+
+			swap($scope.batsman[0], $scope.batsman[1]);
+		};
+
+		/**
+		 * STATS functions
+		 *
+		 *
+		 */
+		$scope.bowlerStats = function(bowler){
+			return bowler.name + ' : ' +
+				bowler.overs + '.' + bowler.balls + ' ' +
+				bowler.maidens + ' ' + bowler.wickets + ' ' + bowler.runs;
+		};
+
+		$scope.batsmanStats = function(batsman){
+			return batsman.name + ' : ' +
+			batsman.runs + '(' + batsman.balls + ')' + batsman.strike;
+		};
+
+		/**
+		 * Misc Helpers
+		 *
+		 */
+		var swap = function(a,b){
+			var temp = a;
+			a = b;
+			b = temp;
+		};
+
+		var addBatsmanBall = function(runs){
+			if($scope.batsman[0].strike === '*'){
+				$scope.batsman[0].balls++;
 			} else {
-				$scope.batsman[1] += num;
-			}
-			if(num % 2 === 1){
-				swapStrike();
+				$scope.batsman[1].balls++;
 			}
 		};
 
-		$scope.addWicket = function(){
-			$scope.wickets++;
+		var addBatsmanRuns = function(runs){
+			if($scope.batsman[0].strike === '*'){
+				$scope.batsman[0].runs += runs;
+			} else {
+				$scope.batsman[1].runs += runs;
+			}
 		};
 
-		// var todos = $scope.todos = store.todos;
-
-		// $scope.newTodo = '';
-		// $scope.editedTodo = null;
-
-		// $scope.$watch('todos', function () {
-		// 	$scope.remainingCount = $filter('filter')(todos, { completed: false }).length;
-		// 	$scope.completedCount = todos.length - $scope.remainingCount;
-		// 	$scope.allChecked = !$scope.remainingCount;
-		// }, true);
-
-		// // Monitor the current route for changes and adjust the filter accordingly.
-		// $scope.$on('$routeChangeSuccess', function () {
-		// 	var status = $scope.status = $routeParams.status || '';
-
-		// 	$scope.statusFilter = (status === 'active') ?
-		// 		{ completed: false } : (status === 'completed') ?
-		// 		{ completed: true } : null;
-		// });
-
-		// $scope.addTodo = function () {
-		// 	var newTodo = {
-		// 		title: $scope.newTodo.trim(),
-		// 		completed: false
-		// 	};
-
-		// 	if (!newTodo.title) {
-		// 		return;
-		// 	}
-
-		// 	$scope.saving = true;
-		// 	store.insert(newTodo)
-		// 		.then(function success() {
-		// 			$scope.newTodo = '';
-		// 		})
-		// 		.finally(function () {
-		// 			$scope.saving = false;
-		// 		});
-		// };
-
-		// $scope.editTodo = function (todo) {
-		// 	$scope.editedTodo = todo;
-		// 	// Clone the original todo to restore it on demand.
-		// 	$scope.originalTodo = angular.extend({}, todo);
-		// };
-
-		// $scope.saveEdits = function (todo, event) {
-		// 	// Blur events are automatically triggered after the form submit event.
-		// 	// This does some unfortunate logic handling to prevent saving twice.
-		// 	if (event === 'blur' && $scope.saveEvent === 'submit') {
-		// 		$scope.saveEvent = null;
-		// 		return;
-		// 	}
-
-		// 	$scope.saveEvent = event;
-
-		// 	if ($scope.reverted) {
-		// 		// Todo edits were reverted-- don't save.
-		// 		$scope.reverted = null;
-		// 		return;
-		// 	}
-
-		// 	todo.title = todo.title.trim();
-
-		// 	if (todo.title === $scope.originalTodo.title) {
-		// 		$scope.editedTodo = null;
-		// 		return;
-		// 	}
-
-		// 	store[todo.title ? 'put' : 'delete'](todo)
-		// 		.then(function success() {}, function error() {
-		// 			todo.title = $scope.originalTodo.title;
-		// 		})
-		// 		.finally(function () {
-		// 			$scope.editedTodo = null;
-		// 		});
-		// };
-
-		// $scope.revertEdits = function (todo) {
-		// 	todos[todos.indexOf(todo)] = $scope.originalTodo;
-		// 	$scope.editedTodo = null;
-		// 	$scope.originalTodo = null;
-		// 	$scope.reverted = true;
-		// };
-
-		// $scope.removeTodo = function (todo) {
-		// 	store.delete(todo);
-		// };
-
-		// $scope.saveTodo = function (todo) {
-		// 	store.put(todo);
-		// };
-
-		// $scope.toggleCompleted = function (todo, completed) {
-		// 	if (angular.isDefined(completed)) {
-		// 		todo.completed = completed;
-		// 	}
-		// 	store.put(todo, todos.indexOf(todo))
-		// 		.then(function success() {}, function error() {
-		// 			todo.completed = !todo.completed;
-		// 		});
-		// };
-
-		// $scope.clearCompletedTodos = function () {
-		// 	store.clearCompleted();
-		// };
-
-		// $scope.markAll = function (completed) {
-		// 	todos.forEach(function (todo) {
-		// 		if (todo.completed !== completed) {
-		// 			$scope.toggleCompleted(todo, completed);
-		// 		}
-		// 	});
-		// };
+		var checkOddRunsSwap = function(runs){
+			if(runs % 2 === 1){
+				swap($scope.batsman[0].strike, $scope.batsman[1].strike);
+			}
+		};
 	});

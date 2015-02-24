@@ -5,13 +5,13 @@
  *
  * @type {angular.Module}
  */
-angular.module('scorer', ['ngRoute'])
+angular.module('Scorer', ['ngRoute'])
   .config(function ($routeProvider) {
     'use strict';
 
     var routeConfig = {
       controller: 'ScorerCtrl',
-      templateUrl: 'views/scorer/main.html'
+      templateUrl: 'main.html'
     };
 
     $routeProvider

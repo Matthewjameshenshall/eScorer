@@ -1,0 +1,105 @@
+extends ./layout
+
+block body
+  .ui.grid(ng-app="Scorer" ng-controller="ScorerCtrl")
+    .ng-view
+
+    script(type="text/ng-template" id="main.html")
+      //- MODALS...
+      .ui.modal(id="pickBowlerModal")
+        .ui.ten.column.grid
+          .row
+            .two.wide.column
+            .six.wide.column
+              .ui.fluid.basic.green.button(ng-repeat="player in bowlingTeam"
+                ng-click="newOver(player)") {{player.firstname}}
+          .ui.divider.hidden
+
+      //- STATS
+      .ui.grid
+        .two.column.row
+          .column
+            h2 South Africa {{total}} / {{wickets}}
+            h3(ng-repeat="batsman in batsman") {{batsmanStats(batsman)}}
+
+          .column
+            h2 Overs {{overs}}.{{bowler[0].balls}}
+            h3(ng-repeat="b in bowler") {{bowlerStats(b)}}
+
+      .ui.divider
+
+      //- EVENTS
+      .ui.grid
+        .row(ng-show="bowler[0].balls>5")
+          .column
+            .fluid.ui.red.huge.button(ng-click="endOver()") End Over
+        .row
+          .column
+            .ui.top.attached.tabular.menu
+              a.active.item.header(data-tab="normal") Normal
+              a.item.header(data-tab="wide") Wide
+              a.item.header(data-tab="no-ball") No Ball
+              a.item.header(data-tab="wicket") Wicket
+
+            .ui.bottom.attached.active.tab.segment(data-tab="normal")
+              .ui.grid
+                .row
+                  .column
+                    .fluid.ui.green.basic.huge.button(ng-click="normalEvent(0)") dot ball
+                .three.column.row
+                  .column(ng-repeat="run in runs" ng-click="normalEvent(run)")
+                    .fluid.ui.green.basic.huge.button {{run}}
+                    .ui.hidden.divider
+
+            .ui.bottom.attached.tab.segment(data-tab="wide")
+              .ui.grid
+                .row
+                  .column
+                    .fluid.ui.green.basic.huge.button(ng-click="wideEvent(0)") no extra runs
+                .three.column.row
+                  .column(ng-repeat="run in runs" ng-click="wideEvent(run)")
+                    .fluid.ui.green.basic.huge.button {{run}}
+                    .ui.hidden.divider
+
+            .ui.bottom.attached.tab.segment(data-tab="no-ball")
+              .ui.grid
+                .row
+                  .column
+                    .fluid.ui.green.basic.huge.button(ng-click="noBallEvent(0)") no extra runs
+                .three.column.row
+                  .column(ng-repeat="run in runs" ng-click="noBallEvent(run)")
+                    .fluid.ui.green.basic.huge.button {{run}}
+                    .ui.hidden.divider
+
+            .ui.bottom.attached.tab.segment(data-tab="wicket")
+              .ui.grid
+                .two.column.row
+                  .column(ng-repeat="type in wicketTypes" ng-click="wicketEvent(type)")
+                    .fluid.ui.green.basic.huge.button {{type}}
+                    .ui.hidden.divider
+
+            script $('.menu .item').tab();
+            script $('.ui.radio.checkbox').checkbox();
+
+    script(type="text/ng-template" id="new-match.html")
+      .ui.grid
+        .row
+          form.ui.form.segment
+            h2.header New Match
+            .field
+              label Country
+              select.ui.dropdown
+                option(value="0") Gender
+                option(value="1") Male
+                option(value="2") Female
+            .field
+              label Name
+              input(type="text")
+            .text Not a Member?
+            .ui.vertical.animated.blue.mini.button
+              .hidden.content
+              i.users.icon
+
+
+
+

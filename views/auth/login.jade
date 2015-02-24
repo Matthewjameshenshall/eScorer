@@ -1,0 +1,30 @@
+extends ../layout
+
+block body
+  if errors
+    each error in errors
+      p= error
+
+  .ui.centered.page.grid
+    .ui.ten.wide.column
+      .ui.form.stacked.segment(role="form" action="/auth/local" method="post")
+        .ui.left.icon.input
+          i.lock.icon
+          input(name="identifier" type="text" placeholder="username or email")
+        .ui.hidden.divider
+
+        .ui.left.icon.input
+          i.lock.icon
+          input(name="password" type="password" placeholder="password")
+        .ui.hidden.divider
+
+        .ui.submit.green.button Sign in
+
+//- if providers
+//- <h4>You can also use one of these...</h4>
+
+//- <% Object.keys(providers).forEach(function (key) { %>
+//- <a href="/auth/<%= providers[key].slug %>
+//-   " role="button">
+//-   <%= providers[key].name %></a>
+

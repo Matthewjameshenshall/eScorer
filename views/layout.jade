@@ -1,0 +1,34 @@
+doctype html
+html
+  head
+    title eScorer - Cricket
+
+    // Viewport mobile tag for sensible mobile support
+    meta(name="viewport",content="width=device-width, initial-scale=1, maximum-scale=1")
+    meta(name="GeeGee Edu" content="")
+    link(href='//fonts.googleapis.com/css?family=Open+Sans:400,700,300&subset=latin,vietnamese' rel='stylesheet' type='text/css')
+
+
+    link(rel="stylesheet", href="/vendor/semantic-ui/semantic.css")
+  body
+
+    .ui.page.grid
+        .row
+        include partials/header
+
+        .ui.page.grid
+            block body
+
+        include partials/footer
+
+    script(src="/js/dependencies/sails.io.js")
+    script(src="/vendor/jquery/jquery.js")
+    script(src="/vendor/angular/angular.js")
+    script(src="/js/directives/angular-semantic-ui.min.js")
+    script(src="/js/scorer.js")
+    script(src="/js/controllers/scorerCtrl.js")
+    script(src="/vendor/angular-resource/angular-resource.js")
+    script(src="/vendor/angular-route/angular-route.js")
+    script(src="/vendor/semantic-ui/semantic.js")
+
+
